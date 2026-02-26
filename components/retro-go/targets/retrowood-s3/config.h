@@ -82,9 +82,9 @@
 #define RG_BATTERY_DRIVER      1
 #define RG_BATTERY_ADC_UNIT    ADC_UNIT_1
 #define RG_BATTERY_ADC_CHANNEL ADC_CHANNEL_7   // GPIO8
-#define RG_BATTERY_CALC_PERCENT(raw) (((raw) * 4.5f - 3500.f) / (4000.f - 3500.f) * 100.f)
+#define RG_BATTERY_CALC_PERCENT(raw) (((raw) * 4.2f - 3500.f) / (4000.f - 3500.f) * 100.f)
 //300 kOhm and 100 kOhm resistors; 3.5 V for savety; 3.8 V for better linarity (but longer 100 %)
-#define RG_BATTERY_CALC_VOLTAGE(raw) ((raw) * 4.5f * 0.001f)
+#define RG_BATTERY_CALC_VOLTAGE(raw) ((raw) * 4.2f * 0.001f)
 
 // Status LED
 #define RG_GPIO_LED GPIO_NUM_2
