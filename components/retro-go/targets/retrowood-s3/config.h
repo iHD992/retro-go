@@ -10,9 +10,9 @@
 // #define RG_STORAGE_FLASH_PARTITION  "vfs"
 
 // SDMMC Pins für ESP32-S3
-#define RG_GPIO_SDSPI_CLK    GPIO_NUM_39  // part of development board
-#define RG_GPIO_SDSPI_CMD    GPIO_NUM_38  // part of development board
-#define RG_GPIO_SDSPI_D0     GPIO_NUM_40  // part of development board
+#define RG_GPIO_SDMMC_CLK    GPIO_NUM_39  // part of development board
+#define RG_GPIO_SDMMC_CMD    GPIO_NUM_38  // part of development board
+#define RG_GPIO_SDMMC_D0     GPIO_NUM_40  // part of development board
 
 // Audio
 #define RG_AUDIO_USE_INT_DAC        0   // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
