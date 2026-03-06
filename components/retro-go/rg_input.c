@@ -158,15 +158,19 @@ bool rg_input_read_battery_raw(rg_battery_t *out)
     bool present = true;
     bool charging = false;
 
-#if RG_BATTERY_DRIVER == 1 /* ADC */
-    for (int i = 0; i < 4; ++i)
-    {
-        int value = _adc_get_voltage(RG_BATTERY_ADC_UNIT, RG_BATTERY_ADC_CHANNEL);
-        if (value < 0)
-            return false;
-        raw_value += value;
+#if RG_BATTERY_DRIVER == 1 /* ADC */    
+    static uint16_t history[16];
+    static int history_idx = 0;
+
+    int current_v = _adc_get_voltage(RG_BATTERY_ADC_UNIT, RG_BATTERY_ADC_CHANNEL);
+
+    history[history_idx] = (uint32_t)current_v;
+    history_idx = (history_idx + 1) % 16;
+
+    for (int i = 0; i < 16; ++i){
+        raw_value += history[i];
     }
-    raw_value /= 4;
+    raw_value = raw_value >> 4;
 #elif RG_BATTERY_DRIVER == 2 /* I2C */
     uint8_t data[5];
     if (!rg_i2c_read(0x20, -1, &data, 5))
