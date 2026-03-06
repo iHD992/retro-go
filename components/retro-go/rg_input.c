@@ -157,8 +157,8 @@ bool rg_input_read_battery_raw(rg_battery_t *out)
     uint32_t raw_value = 0;
     bool present = true;
     bool charging = false;
-
-#if RG_BATTERY_DRIVER == 1 /* ADC */
+/*
+#if RG_BATTERY_DRIVER == 1 / * ADC * /
     for (int i = 0; i < 4; ++i)
     {
         int value = _adc_get_voltage(RG_BATTERY_ADC_UNIT, RG_BATTERY_ADC_CHANNEL);
@@ -166,7 +166,39 @@ bool rg_input_read_battery_raw(rg_battery_t *out)
             return false;
         raw_value += value;
     }
-    raw_value /= 4;
+    raw_value /= 4;*/
+#if RG_BATTERY_DRIVER == 1 /* ADC */
+    #define BATTERY_WINDOW_SIZE 16
+    
+    //static uint32_t history[BATTERY_WINDOW_SIZE];
+    //static int history_idx = 0;
+
+    // 1. Eine neue Messung durchführen
+    int current_v = _adc_get_voltage(RG_BATTERY_ADC_UNIT, RG_BATTERY_ADC_CHANNEL);
+
+    raw_value = current_v;
+
+    /*history[history_idx] = (uint32_t)current_v;
+    history_idx = (history_idx + 1) % BATTERY_WINDOW_SIZE;
+
+
+    // 3. Kopie für die Sortierung erstellen
+    uint32_t sort_buffer[BATTERY_WINDOW_SIZE];
+    memcpy(sort_buffer, history, sizeof(history));
+
+    // 4. Sortieren (Einfacher Bubble Sort)
+    for (int i = 0; i < BATTERY_WINDOW_SIZE - 1; i++) {
+        for (int j = 0; j < BATTERY_WINDOW_SIZE - i - 1; j++) {
+            if (sort_buffer[j] > sort_buffer[j + 1]) {
+                uint32_t temp = sort_buffer[j];
+                sort_buffer[j] = sort_buffer[j + 1];
+                sort_buffer[j + 1] = temp;
+            }
+        }
+    }
+
+    // 5. Median auswählen (der stabilste Wert in der Mitte)
+    raw_value = sort_buffer[BATTERY_WINDOW_SIZE / 2];*/
 #elif RG_BATTERY_DRIVER == 2 /* I2C */
     uint8_t data[5];
     if (!rg_i2c_read(0x20, -1, &data, 5))
