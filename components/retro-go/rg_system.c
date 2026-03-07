@@ -463,10 +463,12 @@ rg_app_t *rg_system_init(const rg_config_t *config)
     rg_storage_init();
     rg_input_init();
 
+#if RG_BATTERY_DRIVER == 1 /* ADC */ 
     for (int i = 0; i < 16; i++) {
         rg_input_read_battery_raw(NULL);
         rg_task_delay(5);
     }
+#endif
 
     // Test for recovery request as early as possible
     for (int timeout = 5, btn; (btn = rg_input_read_gamepad() & RG_RECOVERY_BTN) && timeout >= 0; --timeout)
