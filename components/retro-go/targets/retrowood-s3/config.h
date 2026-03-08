@@ -87,7 +87,10 @@
 #define RG_BATTERY_CALC_VOLTAGE(raw) ((raw) * 4.2f * 0.001f)
 
 // Status LED
-#define RG_GPIO_LED GPIO_NUM_2
+//#define RG_GPIO_LED GPIO_NUM_2
+#define RG_GPIO_LED_DIMMING 1
+//#define RG_GPIO_LED_INVERT
+#define RG_GPIO_WS2812 48
 
 // SPI Display
 #define RG_GPIO_LCD_MISO GPIO_NUM_NC
@@ -97,6 +100,7 @@
 #define RG_GPIO_LCD_DC   GPIO_NUM_6
 #define RG_GPIO_LCD_RST  GPIO_NUM_5
 #define RG_GPIO_LCD_BCKL GPIO_NUM_16
+//#define RG_GPIO_LCD_BCKL_INVERT
 
 // External I2S DAC
 #define RG_GPIO_SND_I2S_BCK  GPIO_NUM_41
